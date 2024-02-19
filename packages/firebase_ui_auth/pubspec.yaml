@@ -15,20 +15,14 @@ dependencies:
   firebase_core: ^2.24.2
   firebase_dynamic_links: ^5.4.8
   firebase_ui_localizations:
-    git:
-      url: https://github.com/shebnik/FirebaseUI-Flutter.git
-      ref: main
-      path: packages/firebase_ui_localizations
+    path: 
+      ../firebase_ui_localizations
   firebase_ui_oauth:
-    git:
-      url: https://github.com/shebnik/FirebaseUI-Flutter.git
-      ref: main
-      path: packages/firebase_ui_oauth
-  firebase_ui_shared: 
-    git:
-      url: https://github.com/shebnik/FirebaseUI-Flutter.git
-      ref: main
-      path: packages/firebase_ui_shared
+    path: 
+      ../firebase_ui_oauth
+  firebase_ui_shared:
+    path: 
+      ../firebase_ui_shared
   flutter:
     sdk: flutter
   flutter_localizations:

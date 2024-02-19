@@ -38,6 +38,7 @@ class EmailAuthProvider
       (userCredential) async {
         if (displayName != null) {
           await userCredential.user?.updateDisplayName(displayName);
+          await userCredential.user?.reload();
         }
         authListener.onSignedIn(userCredential);
       },
