@@ -12,9 +12,15 @@ dependencies:
   desktop_webview_auth: ^0.0.14
   firebase_auth: ^4.16.0
   firebase_ui_auth:
-    path: ../firebase_ui_auth
-  firebase_ui_shared:
-    path: ../firebase_ui_shared
+    git:
+      url: https://github.com/shebnik/FirebaseUI-Flutter.git
+      ref: main
+      path: packages/firebase_ui_auth
+  firebase_ui_shared: 
+    git:
+      url: https://github.com/shebnik/FirebaseUI-Flutter.git
+      ref: main
+      path: packages/firebase_ui_oauth
   flutter_svg: ^2.0.9
   flutter:
     sdk: flutter
