@@ -1,6 +1,16 @@
 {
   "@@locale": "ru",
-  "@@last_modified": "2023-11-16T00:26:53.970486",
+  "@@last_modified": "2024-02-19T14:57:33.436293",
+  "agreeToTermsOfService": "Нажимая кнопку \"Зарегистрироваться\", вы соглашаетесь с нашими условиями использования и политикой конфиденциальности.",
+  "@agreeToTermsOfService": {
+    "description": "Used as a hint text of the EmailSignUpDialog suggesting to review terms of service and privacy policy.",
+    "placeholders": {}
+  },
+  "agreeToTermsOfServiceLinkText": "здесь",
+  "@agreeToTermsOfServiceLinkText": {
+    "description": "Used as a label of the link to the terms of service and privacy policy.",
+    "placeholders": {}
+  },
   "accessDisabledErrorText": "Доступ к этому аккаунту временно заблокирован.",
   "@accessDisabledErrorText": {
     "description": "Used as an error message when account is blocked and user tries to perform some actions with the account (e.g. unlinking a credential).",
@@ -527,6 +537,21 @@
   "confirmDeleteAccountButtonLabel": "Yes, delete",
   "@confirmDeleteAccountButtonLabel": {
     "description": "Confirm delete account button label",
+    "placeholders": {}
+  },
+  "nameInputLabel": "Name",
+  "@nameInputLabel": {
+    "description": "Used as a label of the NameInput.",
+    "placeholders": {}
+  },
+  "nameIsRequiredErrorText": "Name is required",
+  "@nameIsRequiredErrorText": {
+    "description": "Used as an error text of the NameInput when the name is empty.",
+    "placeholders": {}
+  },
+  "isNotAValidNameErrorText": "Provide a valid name",
+  "@isNotAValidNameErrorText": {
+    "description": "Used as an error text of the NameInput if the provided name is not valid.",
     "placeholders": {}
   }
 }

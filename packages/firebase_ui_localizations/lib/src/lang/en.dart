@@ -1,10 +1,17 @@
-// Copyright 2023, the Chromium project authors.  Please see the AUTHORS file
+// Copyright 2024, the Chromium project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 import '../default_localizations.dart';
 
 class EnLocalizations extends FirebaseUILocalizationLabels {
   const EnLocalizations();
+
+  @override
+  String get agreeToTermsOfService =>
+      "By signing up, you agree to our terms of service and privacy policy which you can review";
+
+  @override
+  String get agreeToTermsOfServiceLinkText => "here";
 
   @override
   String get accessDisabledErrorText =>
@@ -165,13 +172,13 @@ class EnLocalizations extends FirebaseUILocalizationLabels {
   String get referenceLabel => "reference";
 
   @override
-  String get registerActionText => "Register";
+  String get registerActionText => "Sign up";
 
   @override
   String get registerHintText => "Don't have an account?";
 
   @override
-  String get registerText => "Register";
+  String get registerText => "Sign up";
 
   @override
   String get resetPasswordButtonLabel => "Reset password";
@@ -180,7 +187,7 @@ class EnLocalizations extends FirebaseUILocalizationLabels {
   String get sendLinkButtonLabel => "Send magic link";
 
   @override
-  String get signInActionText => "Sign in";
+  String get signInActionText => "Log in";
 
   @override
   String get signInHintText => "Already have an account?";
@@ -189,7 +196,7 @@ class EnLocalizations extends FirebaseUILocalizationLabels {
   String get signInMethods => "Sign-in methods";
 
   @override
-  String get signInText => "Sign in";
+  String get signInText => "Log in";
 
   @override
   String get signInWithAppleButtonText => "Sign in with Apple";
@@ -333,4 +340,13 @@ class EnLocalizations extends FirebaseUILocalizationLabels {
 
   @override
   String get confirmDeleteAccountButtonLabel => "Yes, delete";
+
+  @override
+  String get nameInputLabel => "Name";
+
+  @override
+  String get nameIsRequiredErrorText => "Name is required";
+
+  @override
+  String get isNotAValidNameErrorText => "Provide a valid name";
 }

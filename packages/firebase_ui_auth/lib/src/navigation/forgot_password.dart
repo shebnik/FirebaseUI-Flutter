@@ -23,6 +23,9 @@ Future<void> showForgotPasswordScreen({
 
   /// A returned widget would be placed at the bottom.
   WidgetBuilder? footerBuilder,
+
+  /// A widget that would be placed above the authentication related widgets.
+  Widget? logo,
 }) async {
   final route = createPageRoute(
     context: context,
@@ -33,6 +36,7 @@ Future<void> showForgotPasswordScreen({
         email: email,
         footerBuilder: footerBuilder,
         subtitleBuilder: subtitleBuilder,
+        logo: logo,
       ),
     ),
   );

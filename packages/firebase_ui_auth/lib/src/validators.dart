@@ -92,3 +92,14 @@ class PhoneValidator extends Validator {
     return value!.length < 7 ? errorText : null;
   }
 }
+
+/// Validates user Name.
+/// Should be used together with the [NotEmpty].
+class NameValidator extends Validator {
+  NameValidator(String errorText) : super(errorText, []);
+
+  @override
+  String? validate(String? value) {
+    return value!.length < 3 ? errorText : null;
+  }
+}

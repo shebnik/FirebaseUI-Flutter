@@ -53,7 +53,7 @@ void main() {
       });
 
       test('calls createUserWithEmailAndPassword if action is signUp', () {
-        provider.authenticate('email', 'password', AuthAction.signUp);
+        provider.authenticate('email', 'password', action: AuthAction.signUp);
         provider.auth = MockAuth();
 
         final result = verify(
@@ -70,7 +70,7 @@ void main() {
         final user = MockUser();
         auth.user = user;
 
-        provider.authenticate('email', 'password', AuthAction.link);
+        provider.authenticate('email', 'password', action: AuthAction.link);
         verify(user.linkWithCredential(any)).called(1);
       });
 
@@ -83,7 +83,7 @@ void main() {
 
       test('calls onBeforeCredentialLinked if action is link', () {
         flow.provider.authListener = mockListener;
-        flow.provider.authenticate('email', 'password', AuthAction.link);
+        flow.provider.authenticate('email', 'password', action: AuthAction.link);
 
         verify(mockListener.onCredentialReceived(any)).called(1);
       });
@@ -110,7 +110,7 @@ void main() {
         final user = MockUser();
         auth.user = user;
 
-        flow.provider.authenticate('email', 'password', AuthAction.link);
+        flow.provider.authenticate('email', 'password', action: AuthAction.link);
 
         await untilCalled(user.linkWithCredential(any));
         final result = verify(mockListener.onCredentialLinked(captureAny))
@@ -148,7 +148,7 @@ void main() {
           provider.authenticate(
             captureAny,
             captureAny,
-            captureAny,
+            action: captureAny,
           ),
         )..called(1);
 
@@ -238,9 +238,10 @@ class MockProvider extends Mock implements EmailAuthProvider {
   @override
   void authenticate(
     String? email,
-    String? password, [
+    String? password, {
     AuthAction? action = AuthAction.signIn,
-  ]) {
+    String? displayName,
+  }) {
     super.noSuchMethod(Invocation.method(#signIn, [email, password, action]));
   }
 }

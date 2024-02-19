@@ -57,6 +57,23 @@ class LoginScreen extends StatelessWidget {
   /// {@macro ui.auth.screens.responsive_page.max_width}
   final double? maxWidth;
 
+  /// Whether the confirm password field should be displayed.
+  /// Defaults to `true`.
+  /// If set to `false`, the confirm password field will not be displayed.
+  final bool showConfirmPassword;
+
+  /// A callback that is called when the "Terms of Service" link is pressed.
+  /// If not provided, the widget will not be displayed.
+  /// If provided, the widget will be displayed below the password field.
+  final void Function()? onTermsPressed;
+
+  /// A widget that would be placed above the authentication related widgets.
+  /// If not provided, the widget will not be displayed.
+  final Widget? logo;  
+  
+  /// Whether the name field is required.
+  final bool nameRequired;
+
   const LoginScreen({
     super.key,
     required this.action,
@@ -77,6 +94,10 @@ class LoginScreen extends StatelessWidget {
     this.styles,
     this.showPasswordVisibilityToggle = false,
     this.maxWidth,
+    this.showConfirmPassword = true,
+    this.onTermsPressed,
+    this.logo,
+    this.nameRequired = false,
   });
 
   @override
@@ -84,7 +105,7 @@ class LoginScreen extends StatelessWidget {
     final loginContent = ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 500),
       child: Padding(
-        padding: const EdgeInsets.all(30),
+        padding: const EdgeInsets.all(20),
         child: LoginView(
           key: loginViewKey,
           action: action,
@@ -96,6 +117,10 @@ class LoginScreen extends StatelessWidget {
           subtitleBuilder: subtitleBuilder,
           footerBuilder: footerBuilder,
           showPasswordVisibilityToggle: showPasswordVisibilityToggle,
+          showConfirmPassword: showConfirmPassword,
+          logo: logo,
+          onTermsPressed: onTermsPressed,
+          nameRequired: nameRequired,
         ),
       ),
     );

@@ -24,37 +24,55 @@ class EmailAuthProvider
   bool supportsPlatform(TargetPlatform platform) => true;
 
   /// Tries to create a new user account with the given [EmailAuthCredential].
-  void signUpWithCredential(fba.EmailAuthCredential credential) {
+  void signUpWithCredential(
+    fba.EmailAuthCredential credential, {
+    String? displayName,
+  }) {
     authListener.onBeforeSignIn();
     auth
         .createUserWithEmailAndPassword(
-          email: credential.email,
-          password: credential.password!,
-        )
-        .then(authListener.onSignedIn)
-        .catchError(authListener.onError);
+      email: credential.email,
+      password: credential.password!,
+    )
+        .then(
+      (userCredential) async {
+        if (displayName != null) {
+          await userCredential.user?.updateDisplayName(displayName);
+        }
+        authListener.onSignedIn(userCredential);
+      },
+    ).catchError((error) {
+      authListener.onError(error);
+      return null;
+    });
   }
 
   /// Creates an [EmailAuthCredential] with the given [email] and [password] and
   /// performs a corresponding [AuthAction].
   void authenticate(
     String email,
-    String password, [
+    String password, {
     AuthAction action = AuthAction.signIn,
-  ]) {
+    String? displayName,
+  }) {
     final credential = fba.EmailAuthProvider.credential(
       email: email,
       password: password,
     ) as fba.EmailAuthCredential;
 
-    onCredentialReceived(credential, action);
+    onCredentialReceived(
+      credential,
+      action,
+      displayName: displayName,
+    );
   }
 
   @override
   void onCredentialReceived(
     fba.EmailAuthCredential credential,
-    AuthAction action,
-  ) {
+    AuthAction action, {
+    String? displayName,
+  }) {
     switch (action) {
       case AuthAction.signIn:
         signInWithCredential(credential);
@@ -64,7 +82,7 @@ class EmailAuthProvider
           return linkWithCredential(credential);
         }
 
-        signUpWithCredential(credential);
+        signUpWithCredential(credential, displayName: displayName);
         break;
       case AuthAction.link:
         linkWithCredential(credential);

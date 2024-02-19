@@ -4,8 +4,11 @@
 
 import 'package:firebase_auth/firebase_auth.dart' as fba;
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+import 'package:firebase_ui_auth/src/widgets/name_input.dart';
 import 'package:firebase_ui_localizations/firebase_ui_localizations.dart';
 import 'package:firebase_ui_shared/firebase_ui_shared.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../validators.dart';
@@ -39,7 +42,11 @@ class ForgotPasswordAction extends FirebaseUIAction {
   ForgotPasswordAction(this.callback);
 }
 
-typedef EmailFormSubmitCallback = void Function(String email, String password);
+typedef EmailFormSubmitCallback = void Function(
+  String email,
+  String password, {
+  String? displayName,
+});
 
 /// {@template ui.auth.widgets.email_form.email_form_style}
 /// An object that is being used to apply styles to the email form.
@@ -136,6 +143,20 @@ class EmailForm extends StatelessWidget {
   /// {@endtemplate}
   final bool showPasswordVisibilityToggle;
 
+  /// Whether the confirm password field should be displayed.
+  /// Defaults to `true`.
+  /// If set to `false`, the confirm password field will not be displayed.
+  final bool showConfirmPassword;
+
+  /// If provided, the terms will be displayed.
+  final void Function()? onTermsPressed;
+
+  /// Whether the name field is required.
+  final bool nameRequired;
+
+  /// A widget that would be placed above the authentication related widgets.
+  final Widget? logo;
+
   /// {@macro ui.auth.widgets.email_form}
   const EmailForm({
     super.key,
@@ -147,6 +168,10 @@ class EmailForm extends StatelessWidget {
     this.actionButtonLabelOverride,
     this.style,
     this.showPasswordVisibilityToggle = false,
+    this.showConfirmPassword = true,
+    this.nameRequired = false,
+    this.onTermsPressed,
+    this.logo,
   });
 
   @override
@@ -160,6 +185,10 @@ class EmailForm extends StatelessWidget {
       actionButtonLabelOverride: actionButtonLabelOverride,
       style: style,
       showPasswordVisibilityToggle: showPasswordVisibilityToggle,
+      showConfirmPassword: showConfirmPassword,
+      nameRequired: nameRequired,
+      onTermsPressed: onTermsPressed,
+      logo: logo,
     );
 
     return AuthFlowBuilder<EmailAuthController>(
@@ -183,6 +212,11 @@ class _SignInFormContent extends StatefulWidget {
 
   final String? actionButtonLabelOverride;
   final bool showPasswordVisibilityToggle;
+  final bool showConfirmPassword;
+  final bool nameRequired;
+
+  final void Function()? onTermsPressed;
+  final Widget? logo;
 
   final EmailFormStyle? style;
 
@@ -195,6 +229,10 @@ class _SignInFormContent extends StatefulWidget {
     this.actionButtonLabelOverride,
     this.style,
     this.showPasswordVisibilityToggle = false,
+    this.showConfirmPassword = true,
+    this.nameRequired = false,
+    this.onTermsPressed,
+    this.logo,
   });
 
   @override
@@ -202,11 +240,13 @@ class _SignInFormContent extends StatefulWidget {
 }
 
 class _SignInFormContentState extends State<_SignInFormContent> {
+  final nameCtrl = TextEditingController();
   final emailCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
   final confirmPasswordCtrl = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
+  final nameFocusNode = FocusNode();
   final emailFocusNode = FocusNode();
   final passwordFocusNode = FocusNode();
   final confirmPasswordFocusNode = FocusNode();
@@ -231,18 +271,66 @@ class _SignInFormContentState extends State<_SignInFormContent> {
     FocusManager.instance.primaryFocus?.unfocus();
 
     final ctrl = AuthController.ofType<EmailAuthController>(context);
+    final name = (widget.nameRequired ? nameCtrl.text : null)?.trim();
     final email = (widget.email ?? emailCtrl.text).trim();
 
     if (formKey.currentState!.validate()) {
       if (widget.onSubmit != null) {
-        widget.onSubmit!(email, passwordCtrl.text);
+        widget.onSubmit!(
+          email,
+          passwordCtrl.text,
+          displayName: name,
+        );
       } else {
         ctrl.setEmailAndPassword(
           email,
           password ?? passwordCtrl.text,
+          displayName: name,
         );
       }
     }
+  }
+
+  Widget _buildTerms(BuildContext context) {
+    final l = FirebaseUILocalizations.labelsOf(context);
+
+    final isCupertino = CupertinoUserInterfaceLevel.maybeOf(context) != null;
+    TextStyle? hintStyle;
+    late Color registerTextColor;
+
+    if (isCupertino) {
+      final theme = CupertinoTheme.of(context);
+      registerTextColor = theme.primaryColor;
+      hintStyle = theme.textTheme.textStyle.copyWith(fontSize: 12);
+    } else {
+      final theme = Theme.of(context);
+      hintStyle = Theme.of(context).textTheme.bodySmall;
+      registerTextColor = theme.colorScheme.onSurface;
+    }
+
+    return Padding(
+      padding: const EdgeInsets.all(6.0),
+      child: Text.rich(
+        TextSpan(
+          children: [
+            TextSpan(
+              text: '${l.agreeToTermsOfService} ',
+              style: hintStyle,
+            ),
+            TextSpan(
+              text: '${l.agreeToTermsOfServiceLinkText}.',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: registerTextColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+              mouseCursor: SystemMouseCursors.click,
+              recognizer: TapGestureRecognizer()
+                ..onTap = widget.onTermsPressed ?? () {},
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -251,6 +339,17 @@ class _SignInFormContentState extends State<_SignInFormContent> {
     const spacer = SizedBox(height: 16);
 
     final children = [
+      if (widget.nameRequired && widget.action == AuthAction.signUp) ...[
+        NameInput(
+          focusNode: nameFocusNode,
+          controller: nameCtrl,
+          onSubmitted: (v) {
+            formKey.currentState?.validate();
+            FocusScope.of(context).requestFocus(emailFocusNode);
+          },
+        ),
+        spacer,
+      ],
       if (widget.email == null) ...[
         EmailInput(
           focusNode: emailFocusNode,
@@ -285,14 +384,16 @@ class _SignInFormContentState extends State<_SignInFormContent> {
                   context: context,
                   email: emailCtrl.text,
                   auth: widget.auth,
+                  logo: widget.logo,
                 );
               }
             },
           ),
         ),
       ],
-      if (widget.action == AuthAction.signUp ||
-          widget.action == AuthAction.link) ...[
+      if (widget.showConfirmPassword &&
+          (widget.action == AuthAction.signUp ||
+              widget.action == AuthAction.link)) ...[
         const SizedBox(height: 8),
         PasswordInput(
           autofillHints: const [AutofillHints.newPassword],
@@ -310,6 +411,11 @@ class _SignInFormContentState extends State<_SignInFormContent> {
           showVisibilityToggle: widget.showPasswordVisibilityToggle,
         ),
         const SizedBox(height: 8),
+      ],
+      if (widget.onTermsPressed != null &&
+          widget.action == AuthAction.signUp) ...[
+        const SizedBox(height: 35),
+        _buildTerms(context),
       ],
       const SizedBox(height: 8),
       Builder(

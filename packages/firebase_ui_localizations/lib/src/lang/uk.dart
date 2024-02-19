@@ -1,10 +1,17 @@
-// Copyright 2023, the Chromium project authors.  Please see the AUTHORS file
+// Copyright 2024, the Chromium project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 import '../default_localizations.dart';
 
 class UkLocalizations extends FirebaseUILocalizationLabels {
   const UkLocalizations();
+
+  @override
+  String get agreeToTermsOfService =>
+      "Реєструючись, ви погоджуєтесь з нашими умовами надання послуг та політикою конфіденційності, які ви можете переглянути";
+
+  @override
+  String get agreeToTermsOfServiceLinkText => "тут";
 
   @override
   String get accessDisabledErrorText =>
@@ -338,4 +345,13 @@ class UkLocalizations extends FirebaseUILocalizationLabels {
 
   @override
   String get confirmDeleteAccountButtonLabel => "Yes, delete";
+
+  @override
+  String get nameInputLabel => "Name";
+
+  @override
+  String get nameIsRequiredErrorText => "Name is required";
+
+  @override
+  String get isNotAValidNameErrorText => "Provide a valid name";
 }

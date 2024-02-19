@@ -87,8 +87,28 @@ class RegisterScreen extends MultiProviderScreen {
   /// * [EmailFormStyle]
   final Set<FirebaseUIStyle>? styles;
 
+  /// {@macro ui.auth.widgets.email_form.showPasswordVisibilityToggle}
+  final bool showPasswordVisibilityToggle;
+
   /// {@macro ui.auth.screens.responsive_page.max_width}
   final double? maxWidth;
+
+  /// Whether the confirm password field should be displayed.
+  /// Defaults to `true`.
+  /// If set to `false`, the confirm password field will not be displayed.
+  final bool showConfirmPassword;
+
+  /// A callback that is called when the "Terms of Service" link is pressed.
+  /// If not provided, the widget will not be displayed.
+  /// If provided, the widget will be displayed below the password field.
+  final void Function()? onTermsPressed;
+
+  /// A widget that would be placed above the authentication related widgets.
+  /// If not provided, the widget will not be displayed.
+  final Widget? logo;
+
+  /// Whether the name field is required.
+  final bool nameRequired;
 
   const RegisterScreen({
     super.key,
@@ -107,7 +127,12 @@ class RegisterScreen extends MultiProviderScreen {
     this.footerBuilder,
     this.breakpoint = 800,
     this.styles,
+    this.showPasswordVisibilityToggle = false,
     this.maxWidth,
+    this.showConfirmPassword = true,
+    this.onTermsPressed,
+    this.logo,
+    this.nameRequired = false,
   });
 
   @override
@@ -130,7 +155,12 @@ class RegisterScreen extends MultiProviderScreen {
         subtitleBuilder: subtitleBuilder,
         footerBuilder: footerBuilder,
         breakpoint: breakpoint,
+        showPasswordVisibilityToggle: showPasswordVisibilityToggle,
         maxWidth: maxWidth,
+        showConfirmPassword: showConfirmPassword,
+        onTermsPressed: onTermsPressed,
+        logo: logo,
+        nameRequired: nameRequired,
       ),
     );
   }

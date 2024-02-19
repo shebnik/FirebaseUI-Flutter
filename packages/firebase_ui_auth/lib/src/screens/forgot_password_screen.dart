@@ -43,6 +43,9 @@ class ForgotPasswordScreen extends StatelessWidget {
 
   /// {@macro ui.auth.screens.responsive_page.max_width}
   final double? maxWidth;
+  
+  /// A widget that would be placed above the authentication related widgets.
+  final Widget? logo;
 
   const ForgotPasswordScreen({
     super.key,
@@ -57,6 +60,7 @@ class ForgotPasswordScreen extends StatelessWidget {
     this.resizeToAvoidBottomInset,
     this.breakpoint = 600,
     this.maxWidth = 1200,
+    this.logo,
   });
 
   @override
@@ -66,6 +70,7 @@ class ForgotPasswordScreen extends StatelessWidget {
       email: email,
       footerBuilder: footerBuilder,
       subtitleBuilder: subtitleBuilder,
+      logo: logo,
     );
 
     return UniversalScaffold(
@@ -78,9 +83,9 @@ class ForgotPasswordScreen extends StatelessWidget {
         breakpoint: breakpoint,
         maxWidth: maxWidth,
         contentFlex: 1,
-        child: Padding(
-          padding: const EdgeInsets.all(32),
-          child: child,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: child,
         ),
       ),
     );

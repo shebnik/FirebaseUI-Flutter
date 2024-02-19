@@ -7,6 +7,13 @@ class RoLocalizations extends FirebaseUILocalizationLabels {
   const RoLocalizations();
 
   @override
+  String get agreeToTermsOfService =>
+      "Prin înregistrare, ești de acord cu termenii și condițiile noastre și cu politica noastră de confidențialitate pe care le poți consulta";
+
+  @override
+  String get agreeToTermsOfServiceLinkText => "aici";
+
+  @override
   String get accessDisabledErrorText =>
       "Accesul la acest cont a fost dezactivat temporar";
 
@@ -338,4 +345,13 @@ class RoLocalizations extends FirebaseUILocalizationLabels {
 
   @override
   String get confirmDeleteAccountButtonLabel => "Da, șterge";
+
+  @override
+  String get nameInputLabel => "Name";
+
+  @override
+  String get nameIsRequiredErrorText => "Name is required";
+
+  @override
+  String get isNotAValidNameErrorText => "Provide a valid name";
 }

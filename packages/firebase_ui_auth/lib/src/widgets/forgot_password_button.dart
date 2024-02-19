@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:firebase_ui_shared/firebase_ui_shared.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_ui_localizations/firebase_ui_localizations.dart';
 
@@ -25,6 +24,7 @@ class ForgotPasswordButton extends StatelessWidget {
       variant: ButtonVariant.text,
       text: l.forgotPasswordButtonLabel,
       onPressed: onPressed,
+      materialColor: Theme.of(context).colorScheme.onSurface,
     );
   }
 }

@@ -7,8 +7,6 @@ import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:firebase_ui_localizations/firebase_ui_localizations.dart';
 import 'package:firebase_ui_oauth/firebase_ui_oauth.dart'
     hide OAuthProviderButtonBase;
-import 'package:flutter/cupertino.dart' hide Title;
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart' hide Title;
 
 import '../widgets/internal/title.dart';
@@ -58,6 +56,21 @@ class LoginView extends StatefulWidget {
   /// {@macro ui.auth.widgets.email_from.showPasswordVisibilityToggle}
   final bool showPasswordVisibilityToggle;
 
+  /// Whether the confirm password field should be displayed.
+  /// Defaults to `true`.
+  /// If set to `false`, the confirm password field will not be displayed.
+  final bool showConfirmPassword;
+
+  /// A widget that would be placed above the authentication related widgets.
+  final Widget? logo;
+
+  /// A callback that would be called when the "Terms of Service" link is pressed.
+  /// If not provided, the widget will not be displayed.
+  final void Function()? onTermsPressed;
+
+  /// Whether the name field is required.
+  final bool nameRequired;
+
   /// {@macro ui.auth.views.login_view}
   const LoginView({
     super.key,
@@ -72,6 +85,10 @@ class LoginView extends StatefulWidget {
     this.subtitleBuilder,
     this.actionButtonLabelOverride,
     this.showPasswordVisibilityToggle = false,
+    this.showConfirmPassword = true,
+    this.logo,
+    this.onTermsPressed,
+    this.nameRequired = false,
   });
 
   @override
@@ -136,31 +153,11 @@ class _LoginViewState extends State<LoginView> {
     final l = FirebaseUILocalizations.labelsOf(context);
 
     late String title;
-    late String hint;
-    late String actionText;
 
     if (_action == AuthAction.signIn) {
       title = l.signInText;
-      hint = l.registerHintText;
-      actionText = l.registerText;
     } else if (_action == AuthAction.signUp) {
       title = l.registerText;
-      hint = l.signInHintText;
-      actionText = l.signInText;
-    }
-
-    final isCupertino = CupertinoUserInterfaceLevel.maybeOf(context) != null;
-    TextStyle? hintStyle;
-    late Color registerTextColor;
-
-    if (isCupertino) {
-      final theme = CupertinoTheme.of(context);
-      registerTextColor = theme.primaryColor;
-      hintStyle = theme.textTheme.textStyle.copyWith(fontSize: 12);
-    } else {
-      final theme = Theme.of(context);
-      hintStyle = Theme.of(context).textTheme.bodySmall;
-      registerTextColor = theme.colorScheme.primary;
     }
 
     return [
@@ -171,28 +168,6 @@ class _LoginViewState extends State<LoginView> {
           context,
           _action,
         ),
-      if (_showAuthActionSwitch) ...[
-        Text.rich(
-          TextSpan(
-            children: [
-              TextSpan(
-                text: '$hint ',
-                style: hintStyle,
-              ),
-              TextSpan(
-                text: actionText,
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: registerTextColor,
-                    ),
-                mouseCursor: SystemMouseCursors.click,
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () => _handleDifferentAuthAction(context),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-      ]
     ];
   }
 
@@ -212,44 +187,85 @@ class _LoginViewState extends State<LoginView> {
 
     return IntrinsicHeight(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          if (_showTitle) ..._buildHeader(context),
-          for (var provider in widget.providers)
-            if (provider.supportsPlatform(platform))
-              if (provider is EmailAuthProvider) ...[
-                const SizedBox(height: 8),
-                EmailForm(
-                  key: ValueKey(_action),
-                  auth: widget.auth,
-                  action: _action,
-                  provider: provider,
-                  email: widget.email,
-                  actionButtonLabelOverride: widget.actionButtonLabelOverride,
-                  showPasswordVisibilityToggle:
-                      widget.showPasswordVisibilityToggle,
-                )
-              ] else if (provider is PhoneAuthProvider) ...[
-                const SizedBox(height: 8),
-                PhoneVerificationButton(
-                  label: l.signInWithPhoneButtonText,
-                  action: _action,
-                  auth: widget.auth,
-                ),
-                const SizedBox(height: 8),
-              ] else if (provider is EmailLinkAuthProvider) ...[
-                const SizedBox(height: 8),
-                EmailLinkSignInButton(
-                  auth: widget.auth,
-                  provider: provider,
-                ),
-              ] else if (provider is OAuthProvider && !_buttonsBuilt)
-                _buildOAuthButtons(platform),
-          if (widget.footerBuilder != null)
-            widget.footerBuilder!(
-              context,
-              _action,
+          if (widget.logo != null) ...[
+            widget.logo!,
+            const SizedBox(height: 6),
+          ],
+          Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surface,
+              borderRadius: BorderRadius.circular(10),
             ),
+            child: Padding(
+              padding: const EdgeInsets.all(22),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  if (_showTitle) ..._buildHeader(context),
+                  for (var provider in widget.providers)
+                    if (provider.supportsPlatform(platform))
+                      if (provider is EmailAuthProvider) ...[
+                        const SizedBox(height: 8),
+                        EmailForm(
+                          key: ValueKey(_action),
+                          auth: widget.auth,
+                          action: _action,
+                          provider: provider,
+                          email: widget.email,
+                          actionButtonLabelOverride:
+                              widget.actionButtonLabelOverride,
+                          showPasswordVisibilityToggle:
+                              widget.showPasswordVisibilityToggle,
+                          showConfirmPassword: widget.showConfirmPassword,
+                          onTermsPressed: widget.onTermsPressed,
+                          nameRequired: widget.nameRequired,
+                          logo: widget.logo,
+                        ),
+                        if (_showAuthActionSwitch) ...[
+                          const SizedBox(height: 8),
+                          TextButton(
+                            child: Text(
+                              _action == AuthAction.signIn
+                                  ? l.registerText
+                                  : l.signInText,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelLarge
+                                  ?.copyWith(
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
+                                  ),
+                            ),
+                            onPressed: () =>
+                                _handleDifferentAuthAction(context),
+                          ),
+                        ],
+                      ] else if (provider is PhoneAuthProvider) ...[
+                        const SizedBox(height: 8),
+                        PhoneVerificationButton(
+                          label: l.signInWithPhoneButtonText,
+                          action: _action,
+                          auth: widget.auth,
+                        ),
+                        const SizedBox(height: 8),
+                      ] else if (provider is EmailLinkAuthProvider) ...[
+                        const SizedBox(height: 8),
+                        EmailLinkSignInButton(
+                          auth: widget.auth,
+                          provider: provider,
+                        ),
+                      ] else if (provider is OAuthProvider && !_buttonsBuilt)
+                        _buildOAuthButtons(platform),
+                  if (widget.footerBuilder != null)
+                    widget.footerBuilder!(
+                      context,
+                      _action,
+                    ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );

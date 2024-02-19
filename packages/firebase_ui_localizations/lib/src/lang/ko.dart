@@ -1,10 +1,17 @@
-// Copyright 2023, the Chromium project authors.  Please see the AUTHORS file
+// Copyright 2024, the Chromium project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 import '../default_localizations.dart';
 
 class KoLocalizations extends FirebaseUILocalizationLabels {
   const KoLocalizations();
+
+  @override
+  String get agreeToTermsOfService =>
+      "가입하면 당사의 서비스 약관 및 개인정보 보호정책에 동의하는 것으로 간주됩니다.";
+
+  @override
+  String get agreeToTermsOfServiceLinkText => "여기";
 
   @override
   String get accessDisabledErrorText => "이 계정의 액세스가 일시적으로 중지되었습니다.";
@@ -328,4 +335,13 @@ class KoLocalizations extends FirebaseUILocalizationLabels {
 
   @override
   String get confirmDeleteAccountButtonLabel => "Yes, delete";
+
+  @override
+  String get nameInputLabel => "Name";
+
+  @override
+  String get nameIsRequiredErrorText => "Name is required";
+
+  @override
+  String get isNotAValidNameErrorText => "Provide a valid name";
 }

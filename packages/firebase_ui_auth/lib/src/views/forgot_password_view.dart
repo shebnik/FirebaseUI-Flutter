@@ -29,6 +29,9 @@ class ForgotPasswordView extends StatefulWidget {
   /// An email that [EmailInput] should be pre-filled with.
   final String? email;
 
+  /// A widget that would be placed above the authentication related widgets.
+  final Widget? logo;
+
   /// {@macro ui.auth.views.forgot_password_view}
   const ForgotPasswordView({
     super.key,
@@ -37,6 +40,7 @@ class ForgotPasswordView extends StatefulWidget {
     this.actionCodeSettings,
     this.subtitleBuilder,
     this.footerBuilder,
+    this.logo,
   });
 
   @override
@@ -78,54 +82,73 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
     final l = FirebaseUILocalizations.labelsOf(context);
     const spacer = SizedBox(height: 32);
 
-    return Form(
-      key: formKey,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Title(text: l.forgotPasswordViewTitle),
-          if (!emailSent) ...[
-            spacer,
-            widget.subtitleBuilder?.call(context) ??
-                Text(l.forgotPasswordHintText),
-          ],
-          spacer,
-          if (!emailSent) ...[
-            EmailInput(
-              autofocus: false,
-              controller: emailCtrl,
-              onSubmitted: _submit,
-            ),
-            spacer,
-          ] else ...[
-            Text(l.passwordResetEmailSentText),
-            spacer,
-          ],
-          if (exception != null) ...[
-            const SizedBox(height: 16),
-            ErrorText(exception: exception!),
-            const SizedBox(height: 16),
-          ],
-          if (!emailSent)
-            LoadingButton(
-              isLoading: isLoading,
-              label: l.resetPasswordButtonLabel,
-              onTap: () {
-                if (formKey.currentState!.validate()) {
-                  _submit(emailCtrl.text);
-                }
-              },
-            ),
-          const SizedBox(height: 8),
-          UniversalButton(
-            variant: ButtonVariant.text,
-            text: l.goBackButtonLabel,
-            onPressed: () => Navigator.pop(context),
-          ),
-          if (widget.footerBuilder != null) widget.footerBuilder!(context),
+    return Column(
+      children: [
+        if (widget.logo != null) ...[
+          widget.logo!,
+          const SizedBox(height: 6),
         ],
-      ),
+        Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Form(
+            key: formKey,
+            child: Padding(
+              padding: const EdgeInsets.all(22),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Title(text: l.forgotPasswordViewTitle),
+                  if (!emailSent) ...[
+                    spacer,
+                    widget.subtitleBuilder?.call(context) ??
+                        Text(l.forgotPasswordHintText),
+                  ],
+                  spacer,
+                  if (!emailSent) ...[
+                    EmailInput(
+                      autofocus: false,
+                      controller: emailCtrl,
+                      onSubmitted: _submit,
+                    ),
+                    spacer,
+                  ] else ...[
+                    Text(l.passwordResetEmailSentText),
+                    spacer,
+                  ],
+                  if (exception != null) ...[
+                    const SizedBox(height: 16),
+                    ErrorText(exception: exception!),
+                    const SizedBox(height: 16),
+                  ],
+                  if (!emailSent)
+                    LoadingButton(
+                      isLoading: isLoading,
+                      label: l.resetPasswordButtonLabel,
+                      onTap: () {
+                        if (formKey.currentState!.validate()) {
+                          _submit(emailCtrl.text);
+                        }
+                      },
+                    ),
+                  const SizedBox(height: 8),
+                  UniversalButton(
+                    materialColor: Theme.of(context).colorScheme.onSurface,
+                    variant: ButtonVariant.text,
+                    text: l.goBackButtonLabel,
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                  if (widget.footerBuilder != null)
+                    widget.footerBuilder!(context),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

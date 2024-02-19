@@ -1,6 +1,16 @@
 {
   "@@locale": "en",
-  "@@last_modified": "2023-11-16T00:26:53.966433",
+  "@@last_modified": "2024-02-19T14:57:33.387076",
+  "agreeToTermsOfService": "By signing up, you agree to our terms of service and privacy policy which you can review",
+  "@agreeToTermsOfService": {
+    "description": "Used as a hint text of the EmailSignUpDialog suggesting to review terms of service and privacy policy.",
+    "placeholders": {}
+  },
+  "agreeToTermsOfServiceLinkText": "here",
+  "@agreeToTermsOfServiceLinkText": {
+    "description": "Used as a label of the link to the terms of service and privacy policy.",
+    "placeholders": {}
+  },
   "accessDisabledErrorText": "Access to this account has been temporarily disabled",
   "@accessDisabledErrorText": {
     "description": "Used as an error message when account is blocked and user tries to perform some actions with the account (e.g. unlinking a credential).",
@@ -260,7 +270,7 @@
     "description": "",
     "placeholders": {}
   },
-  "registerActionText": "Register",
+  "registerActionText": "Sign up",
   "@registerActionText": {
     "description": "Used as a label of the EmailForm submit button when the AuthAction is AuthAction.signUp.",
     "placeholders": {}
@@ -270,7 +280,7 @@
     "description": "Used as a hint text of the LoginView suggesting to create a new account.",
     "placeholders": {}
   },
-  "registerText": "Register",
+  "registerText": "Sign up",
   "@registerText": {
     "description": "Used as a title of the LoginView when AuthAction is AuthAction.signUp.",
     "placeholders": {}
@@ -289,7 +299,7 @@
     "description": "Used as a label of the submit button on the EmailLinkSignInView.",
     "placeholders": {}
   },
-  "signInActionText": "Sign in",
+  "signInActionText": "Log in",
   "@signInActionText": {
     "description": "Used as a label of the EmailForm submit button when the AuthAction is AuthAction.signIn.",
     "placeholders": {}
@@ -304,7 +314,7 @@
     "description": "Used as a label of the row showing connected providers.",
     "placeholders": {}
   },
-  "signInText": "Sign in",
+  "signInText": "Log in",
   "@signInText": {
     "description": "Used as a title of the LoginView when AuthAction is AuthAction.signIn.",
     "placeholders": {}
@@ -527,6 +537,21 @@
   "confirmDeleteAccountButtonLabel": "Yes, delete",
   "@confirmDeleteAccountButtonLabel": {
     "description": "Confirm delete account button label",
+    "placeholders": {}
+  },
+  "nameInputLabel": "Name",
+  "@nameInputLabel": {
+    "description": "Used as a label of the NameInput.",
+    "placeholders": {}
+  },
+  "nameIsRequiredErrorText": "Name is required",
+  "@nameIsRequiredErrorText": {
+    "description": "Used as an error text of the NameInput when the name is empty.",
+    "placeholders": {}
+  },
+  "isNotAValidNameErrorText": "Provide a valid name",
+  "@isNotAValidNameErrorText": {
+    "description": "Used as an error text of the NameInput if the provided name is not valid.",
     "placeholders": {}
   }
 }

@@ -3,6 +3,7 @@ description: Pre-built widgets library that are integrated with the variety of t
 version: 1.13.0
 repository: https://github.com/firebase/FirebaseUI-Flutter/tree/master/packages/firebase_ui_auth
 homepage: https://github.com/firebase/FirebaseUI-Flutter/tree/master/packages/firebase_ui_auth
+publish_to: "none"
 
 environment:
   sdk: ">=2.18.0 <4.0.0"
@@ -10,12 +11,15 @@ environment:
 
 dependencies:
   email_validator: ^2.1.17
-  firebase_auth: ^4.15.3
+  firebase_auth: ^4.16.0
   firebase_core: ^2.24.2
   firebase_dynamic_links: ^5.4.8
-  firebase_ui_localizations: ^1.10.2
-  firebase_ui_oauth: ^1.5.0
-  firebase_ui_shared: ^1.4.1
+  firebase_ui_localizations:
+    path: ../firebase_ui_localizations
+  firebase_ui_oauth:
+    path: ../firebase_ui_oauth
+  firebase_ui_shared: 
+    path: ../firebase_ui_shared
   flutter:
     sdk: flutter
   flutter_localizations:

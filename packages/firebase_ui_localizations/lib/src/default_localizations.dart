@@ -1,4 +1,4 @@
-// Copyright 2023, the Chromium project authors.  Please see the AUTHORS file
+// Copyright 2024, the Chromium project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
@@ -46,6 +46,13 @@ abstract class FirebaseUILocalizationLabels {
   /// Used as an error message when account is blocked and user tries to perform
   /// some actions with the account (e.g. unlinking a credential).
   String get accessDisabledErrorText;
+
+  /// Used as a hint text of the EmailSignUpDialog suggesting to review terms of
+  /// service and privacy policy.
+  String get agreeToTermsOfService;
+
+  /// Used as a label of the link to the terms of service and privacy policy.
+  String get agreeToTermsOfServiceLinkText;
 
   String get arrayLabel;
 
@@ -164,6 +171,9 @@ abstract class FirebaseUILocalizationLabels {
   /// valid.
   String get isNotAValidEmailErrorText;
 
+  /// Used as an error text of the NameInput if the provided name is not valid.
+  String get isNotAValidNameErrorText;
+
   String get latitudeLabel;
 
   /// Used as a label of the EmailForm submit button when the AuthAction is
@@ -179,6 +189,12 @@ abstract class FirebaseUILocalizationLabels {
 
   /// Used as a placeholder of the EditableUserDisplayName.
   String get name;
+
+  /// Used as a label of the NameInput.
+  String get nameInputLabel;
+
+  /// Used as an error text of the NameInput when the name is empty.
+  String get nameIsRequiredErrorText;
 
   String get northInitialLabel;
 
