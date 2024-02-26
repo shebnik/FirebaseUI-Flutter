@@ -10,13 +10,9 @@ environment:
 
 dependencies:
   desktop_webview_auth: ^0.0.14
-  firebase_auth: ^4.16.0
-  # firebase_ui_auth:
-  #   path: 
-  #     ../firebase_ui_auth
-  # firebase_ui_shared:
-  #   path: 
-  #     ../firebase_ui_shared
+  firebase_auth: ^4.17.5
+  firebase_ui_auth: ^1.13.0
+  firebase_ui_shared: ^1.4.1
   flutter_svg: ^2.0.9
   flutter:
     sdk: flutter
