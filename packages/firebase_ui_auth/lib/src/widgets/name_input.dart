@@ -10,8 +10,6 @@ import '../widgets/internal/universal_text_form_field.dart';
 
 import '../validators.dart';
 
-final _whitespaceRegExp = RegExp(r'^\p{Lu}\p{Ll}+( \p{Lu}\p{Ll}+)*$', unicode: true);
-
 /// {@template ui.auth.widget.name_input}
 /// An input that allows to enter an name address.
 ///
@@ -55,7 +53,7 @@ class NameInput extends StatelessWidget {
       controller: controller,
       placeholder: l.nameInputLabel,
       keyboardType: TextInputType.name,
-      inputFormatters: [FilteringTextInputFormatter.deny(_whitespaceRegExp)],
+      inputFormatters: [LengthLimitingTextInputFormatter(64)],
       validator: Validator.validateAll([
         NotEmpty(l.nameIsRequiredErrorText),
         NameValidator(l.isNotAValidNameErrorText),
