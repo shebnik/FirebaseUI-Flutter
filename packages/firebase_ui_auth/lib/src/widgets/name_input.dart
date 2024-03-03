@@ -10,7 +10,7 @@ import '../widgets/internal/universal_text_form_field.dart';
 
 import '../validators.dart';
 
-final _whitespaceRegExp = RegExp(r'\s{2,}');
+final _whitespaceRegExp = RegExp(r'^\S+(?: \S+)*$');
 
 /// {@template ui.auth.widget.name_input}
 /// An input that allows to enter an name address.
