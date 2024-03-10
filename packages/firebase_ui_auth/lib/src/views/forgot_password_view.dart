@@ -102,11 +102,6 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Title(text: l.forgotPasswordViewTitle),
-                  if (!emailSent) ...[
-                    spacer,
-                    widget.subtitleBuilder?.call(context) ??
-                        Text(l.forgotPasswordHintText),
-                  ],
                   spacer,
                   if (!emailSent) ...[
                     EmailInput(
