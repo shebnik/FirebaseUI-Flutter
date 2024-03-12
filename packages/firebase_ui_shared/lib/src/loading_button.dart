@@ -76,7 +76,7 @@ class LoadingButton extends StatelessWidget {
   final Color? labelColor;
 
   /// A callback that is called when the button is pressed.
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   /// The variant of the button. See [ButtonVariant] for more information.
   final ButtonVariant variant;
@@ -84,7 +84,7 @@ class LoadingButton extends StatelessWidget {
   const LoadingButton({
     super.key,
     required this.label,
-    required this.onTap,
+    this.onTap,
     this.isLoading = false,
     this.materialIcon,
     this.cupertinoIcon,
